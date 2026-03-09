@@ -439,6 +439,18 @@ a .logo{
   margin-top:4px;
   font-weight:500;
 }
+
+.betDetail{
+  padding:30px;
+}
+
+.betDetailCard{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #eee;
+  max-width:500px;
+}
 /* =========================
    TABLET
    ========================= */
