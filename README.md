@@ -1,58 +1,59 @@
-BetDay Lite
+# BetDay Lite
 
-BetDay Lite es una aplicación web que permite visualizar partidos del día, seleccionar apuestas deportivas y confirmarlas mediante un panel de apuestas.
+BetDay Lite es una aplicación web que permite visualizar partidos del día, seleccionar apuestas deportivas y confirmarlas mediante un **panel de apuestas**.
 
 La aplicación implementa un flujo simplificado de una plataforma de apuestas deportivas, incluyendo selección de mercados, gestión de apuestas y visualización del historial.
 
-El sistema está desarrollado utilizando Next.js (App Router), Zustand para manejo de estado global y NextAuth para autenticación.
+El sistema está desarrollado utilizando **Next.js (App Router)**, **Zustand** para manejo de estado global y **NextAuth** para autenticación.
 
-Demo
+---
 
-Deployment realizado en Vercel
+# Demo
 
-https://betday-lite.vercel.app
+Deployment realizado en **Vercel**
 
-Tecnologías utilizadas
-Frontend
+https://reto-at.vercel.app/
 
-Next.js (App Router)
+---
 
-React
+# Tecnologías utilizadas
 
-TypeScript
+## Frontend
 
-Manejo de estado
+- Next.js (App Router)
+- React
+- TypeScript
 
-Zustand
+## Manejo de estado
 
-Autenticación
+- Zustand
 
-NextAuth
+## Autenticación
 
-Estilos
+- NextAuth
 
-CSS responsive
+## Estilos
 
-Diseño mobile-first
+- CSS responsive
+- Diseño mobile-first
 
-Deploy
+## Deploy
 
-Vercel
+- Vercel
 
-Arquitectura de la aplicación
+---
+
+# Arquitectura de la aplicación
 
 La aplicación sigue una arquitectura modular separando responsabilidades entre:
 
-UI
+- UI
+- Estado global
+- Servicios
+- Autenticación
+- Routing
 
-Estado global
-
-Servicios
-
-Autenticación
-
-Routing
-
+```
 Frontend (Next.js)
 
 Pages
@@ -71,166 +72,182 @@ Auth Layer
 
 API Layer
 └ /api/matches
-Funcionalidades principales
-Home – Timeline de partidos
+```
+
+---
+
+# Funcionalidades principales
+
+## Home – Timeline de partidos
 
 Ruta:
 
+```
 /
+```
 
-La página principal muestra los partidos del día en formato timeline.
+La página principal muestra los partidos del día en formato **timeline**.
 
 Cada partido incluye:
 
-Liga
-
-Equipos
-
-Mercado 1X2
-
-HOME
-
-DRAW
-
-AWAY
+- Liga
+- Equipos
+- Mercado **1X2**
+  - HOME
+  - DRAW
+  - AWAY
 
 Cuando el usuario selecciona una cuota:
 
-Se crea una apuesta
+1. Se crea una apuesta
+2. Se guarda en el estado global (`bets`)
+3. Aparece automáticamente en el panel de apuestas
 
-Se guarda en el estado global (bets)
+---
 
-Aparece automáticamente en el panel de apuestas
+# Panel de apuestas
 
-Panel de apuestas
-
-El panel de apuestas aparece en el lado derecho de la pantalla en desktop y adaptado para mobile.
+El panel de apuestas aparece en el lado derecho en desktop y adaptado para mobile.
 
 Funcionalidades:
 
-Lista de apuestas seleccionadas
-
-Campo para ingresar el stake
-
-Cálculo automático de ganancia potencial
+- Lista de apuestas seleccionadas
+- Campo para ingresar el **stake**
+- Cálculo automático de **ganancia potencial**
 
 Fórmula utilizada:
 
+```
 potentialWin = stake * odd
+```
 
 Validación:
 
+```
 stake > 0
+```
 
 Cuando el usuario confirma la apuesta:
 
+```
 bets → placedBets
+```
 
 Las apuestas confirmadas pasan al historial.
 
-Confirmación de apuestas con autenticación
+---
 
-Para evitar que usuarios no autenticados puedan registrar apuestas, se implementó una validación de sesión utilizando NextAuth.
+# Confirmación de apuestas con autenticación
+
+Para evitar que usuarios no autenticados puedan registrar apuestas, se implementó una validación de sesión utilizando **NextAuth**.
 
 Flujo implementado:
 
-El usuario presiona Realizar apuesta
+1. El usuario presiona **Realizar apuesta**
+2. El sistema verifica la sesión con `useSession()`
+3. Si el usuario **no está autenticado**, se redirige a:
 
-El sistema verifica la sesión con useSession()
-
-Si el usuario no está autenticado, se redirige a:
-
+```
 /login
+```
 
-Si el usuario está autenticado, la apuesta se confirma y pasa a placedBets.
+4. Si el usuario **está autenticado**, la apuesta se confirma y pasa a `placedBets`.
 
-Profile – Historial de apuestas
+---
+
+# Profile – Historial de apuestas
 
 Ruta protegida:
 
+```
 /profile
+```
 
-El acceso está controlado mediante NextAuth.
+El acceso está controlado mediante **NextAuth**.
 
-En esta página se muestran únicamente las apuestas confirmadas (placedBets).
+En esta página se muestran únicamente las apuestas confirmadas (`placedBets`).
 
-Si no existen apuestas confirmadas se muestra un empty state.
+Si no existen apuestas confirmadas se muestra un **empty state**.
 
-Detalle de apuesta
+---
+
+# Detalle de apuesta
 
 Ruta dinámica:
 
+```
 /bets/[betId]
+```
 
 Esta página muestra información completa de una apuesta:
 
-Partido
+- Partido
+- Selección realizada
+- Odd
+- Stake
+- Ganancia potencial
+- Estado de la apuesta
 
-Selección realizada
+---
 
-Odd
+# Manejo de estado global
 
-Stake
-
-Ganancia potencial
-
-Estado de la apuesta
-
-Manejo de estado global
-
-Se utiliza Zustand para manejar el estado global de la aplicación.
+Se utiliza **Zustand** para manejar el estado global de la aplicación.
 
 El store contiene dos estados principales:
 
+```
 bets
 placedBets
-bets
+```
+
+### bets
 
 Contiene las apuestas seleccionadas que aún no han sido confirmadas.
 
 Representa el estado actual del panel de apuestas.
 
-placedBets
+### placedBets
 
 Contiene las apuestas confirmadas por el usuario.
 
 Estas apuestas aparecen en:
 
+```
 /profile
-Flujo completo de apuestas
+```
 
-El usuario entra a la página principal
+---
 
-Selecciona una cuota de un partido
+# Flujo completo de apuestas
 
-La apuesta se guarda en bets
+1. El usuario entra a la página principal  
+2. Selecciona una cuota de un partido  
+3. La apuesta se guarda en `bets`  
+4. La apuesta aparece en el panel de apuestas  
+5. El usuario ingresa un **stake**  
+6. El sistema calcula la ganancia potencial  
+7. El usuario presiona **Realizar apuesta**  
+8. El sistema valida la sesión  
+9. Si no está autenticado → redirección a `/login`  
+10. Si está autenticado → apuesta pasa a `placedBets`  
+11. La apuesta aparece en `/profile`  
 
-La apuesta aparece en el panel de apuestas
+---
 
-El usuario ingresa un stake
-
-El sistema calcula la ganancia potencial
-
-El usuario presiona Realizar apuesta
-
-El sistema valida la sesión
-
-Si no está autenticado → redirección a /login
-
-Si está autenticado → apuesta pasa a placedBets
-
-La apuesta aparece en /profile
-
-API
+# API
 
 Endpoint implementado:
 
+```
 GET /api/matches
+```
 
 Este endpoint devuelve los partidos del día.
 
 Ejemplo de respuesta:
 
+```json
 {
   "matches": [
     {
@@ -248,45 +265,70 @@ Ejemplo de respuesta:
     }
   ]
 }
-Autenticación
+```
 
-La autenticación está implementada con NextAuth usando Credentials Provider.
+---
+
+# Autenticación
+
+La autenticación está implementada con **NextAuth** usando **Credentials Provider**.
 
 Las sesiones se utilizan para:
 
-controlar acceso a rutas protegidas
-
-validar confirmación de apuestas
+- controlar acceso a rutas protegidas
+- validar confirmación de apuestas
 
 Ruta protegida:
 
+```
 /profile
+```
 
 Si el usuario no tiene sesión activa, el sistema redirige automáticamente a:
 
+```
 /login
-Instalación y ejecución
+```
+
+---
+
+# Instalación y ejecución
 
 Clonar el repositorio:
 
-git clone https://github.com/usuario/betday-lite.git
+```
+git clone https://github.com/nicolmmdev/reto-at.git
+```
 
 Entrar al proyecto:
 
-cd betday-lite
+```
+cd reto-at
+```
 
 Instalar dependencias:
 
+```
 npm install
+```
 
 Ejecutar en desarrollo:
 
+```
 npm run dev
+```
 
 La aplicación estará disponible en:
 
+```
 http://localhost:3000
-Estructura del proyecto
+```
+
+---
+
+# Estructura del proyecto
+
+```
 betday-lite
 │
 ├ app
@@ -327,33 +369,32 @@ betday-lite
 ├ tsconfig.json
 ├ package.json
 └ README.md
-Decisiones de arquitectura
-Next.js App Router
+```
 
-Se utilizó App Router para aprovechar:
+---
 
-Routing basado en archivos
+# Decisiones de arquitectura
 
-Mejor organización de layouts
+### Next.js App Router
 
-Integración con Server Components
+Se utilizó **App Router** para aprovechar:
 
-Zustand
+- Routing basado en archivos
+- Mejor organización de layouts
+- Integración con Server Components
 
-Se eligió Zustand porque:
+### Zustand
 
-Es liviano
+Se eligió **Zustand** porque:
 
-No requiere boilerplate
+- Es liviano
+- No requiere boilerplate
+- Es ideal para manejar estados simples como las apuestas seleccionadas
 
-Es ideal para manejar estados simples como las apuestas seleccionadas
+### NextAuth
 
-NextAuth
+Se utilizó **NextAuth** para gestionar autenticación porque:
 
-Se utilizó NextAuth para gestionar autenticación porque:
-
-Se integra fácilmente con Next.js
-
-Permite proteger rutas
-
-Simplifica el manejo de sesiones
+- Se integra fácilmente con Next.js
+- Permite proteger rutas
+- Simplifica el manejo de sesiones
