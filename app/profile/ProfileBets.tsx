@@ -1,10 +1,13 @@
 "use client"
 
 import { useBetStore } from "@/stores/betStore"
+import { useRouter } from "next/navigation"
 
 export default function ProfileBets(){
 
-const bets = useBetStore((state)=>state.placedBets)
+  const router = useRouter()
+  const bets = useBetStore((state)=>state.placedBets)
+
   return(
 
     <div className="profileCard">
@@ -26,7 +29,11 @@ const bets = useBetStore((state)=>state.placedBets)
         <tbody>
 
           {bets.map((bet)=>(
-            <tr key={bet.id}>
+            <tr
+              key={bet.id}
+              onClick={() => router.push(`/bets/${bet.id}`)}
+              style={{cursor:"pointer"}}
+            >
 
               <td>{bet.match}</td>
               <td>{bet.pick}</td>

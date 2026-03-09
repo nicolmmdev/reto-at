@@ -9,8 +9,7 @@ body{
 }
 
 h2{
-    font-family:"Rubik", Arial, sans-serif !important;
-
+  font-family:"Rubik", Arial, sans-serif;
 }
 
 /* =========================
@@ -24,24 +23,22 @@ h2{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:0px 30px;
+  padding:0 30px;
   background:white;
   border-bottom:2px solid #e11;
 }
 
 .header a{
-text-decoration: none !important;
-text-transform: none !important;
+  text-decoration:none;
 }
-
 
 .loginBtn{
-  border: none;
-  background: none;
-  /* text-decoration: underline; */
-  cursor: pointer;
-  font-size: 16px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-size:16px;
 }
+
 .navActions{
   display:flex;
   gap:15px;
@@ -131,29 +128,26 @@ text-transform: none !important;
 .odds button{
   flex:1;
   padding:10px;
-  border:1px solid #ccc;
-  background:white;
-  border-radius:6px;
+  border:1px solid #ddd;
+  background:#f3f3f3;
+  border-radius:8px;
   font-weight:bold;
   cursor:pointer;
-  transition:all .15s ease;
+  transition:all .2s ease;
 }
 
-.odds button:not(.selected):hover{
-  background:#dc2626;
+.odds button:hover{
+  background:#eaeaea;
+}
+
+.odds button.selected{
+  background:#ff2a2a;
   color:white;
+  border:1px solid #ff2a2a;
 }
 
-.odds button:active{
-  transform:scale(0.95);
-}
-
-.selected{
-  background:#e30613;
+.odds button.selected strong{
   color:white;
-  border-color:#e30613;
-  transform:scale(1.05);
-  box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .odds button:disabled{
@@ -161,29 +155,7 @@ text-transform: none !important;
   color:#6b7280;
   cursor:not-allowed;
 }
-.odds button {
-  background: #f3f3f3;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
 
-.odds button:hover {
-  background: #eaeaea;
-}
-
-/* botón seleccionado */
-.odds button.selected {
-  background: #ff2a2a;
-  color: white;
-  border: 1px solid #ff2a2a;
-}
-
-.odds button.selected strong {
-  color: white;
-}
 /* =========================
    MERCADO CERRADO
    ========================= */
@@ -318,7 +290,6 @@ text-transform: none !important;
   border-radius:6px;
   font-weight:bold;
   cursor:pointer;
-  transition:0.2s;
 }
 
 .loginSubmit:disabled{
@@ -386,8 +357,6 @@ text-transform: none !important;
   text-align:left;
   margin-bottom:5px;
   cursor:pointer;
-    font-family: "Rubik";
-
 }
 
 .menu .active{
@@ -423,12 +392,21 @@ text-transform: none !important;
   border-bottom:1px solid #eee;
   text-align:left;
 }
+
+.betsTable tbody tr:hover{
+  background:#f5f5f5;
+  cursor:pointer;
+}
+
+/* =========================
+   LOGO
+   ========================= */
+
 .logo{
   font-size:26px;
   font-weight:800;
   color:#e30613;
   letter-spacing:0.5px;
-  text-decoration:none;
 }
 
 .logo span{
@@ -436,9 +414,9 @@ text-transform: none !important;
   margin-left:4px;
 }
 
-a .logo{
-  text-decoration:none;
-}
+/* =========================
+   PROFILE GRID
+   ========================= */
 
 .profileTabs{
   display:flex;
@@ -452,7 +430,6 @@ a .logo{
   background:#eee;
   border-radius:20px;
   cursor:pointer;
-  font-weight:500;
 }
 
 .profileTabs .active{
@@ -476,6 +453,10 @@ a .logo{
   font-weight:500;
 }
 
+/* =========================
+   BET DETAIL
+   ========================= */
+
 .betDetail{
   padding:30px;
 }
@@ -488,35 +469,6 @@ a .logo{
   max-width:500px;
 }
 
-.inputGroup{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  margin-bottom:12px;
-}
-
-.forgotPassword{
-  text-align:right;
-  margin-bottom:10px;
-  font-size:13px;
-}
-
-.signupText{
-  margin-top:15px;
-  font-size:14px;
-  text-align:center;
-}
-
-.welcomeText{
-  text-align:center;
-  font-size:13px;
-  letter-spacing:1px;
-}
-
-.loginHeader{
-  text-align:center;
-  margin-bottom:10px;
-}
 /* =========================
    TABLET
    ========================= */
