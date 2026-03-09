@@ -1,6 +1,7 @@
 export interface Bet {
   id: string
   matchId: string
+  match:string
   placedAt: string
   pick: "HOME" | "DRAW" | "AWAY"
   odd: number
