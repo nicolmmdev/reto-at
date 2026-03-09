@@ -1,45 +1,31 @@
+import { Bet } from "@/types/bet"
 import { create } from "zustand"
 
-type Bet = {
-  id: string
-  matchId: string
-  match: string
-  pick: "HOME" | "DRAW" | "AWAY"
-  odd: number
-  status: "PENDING" | "WON" | "LOST"
-  stake: number
-}
+
 
 type BetStore = {
-  bets: Bet[]        // CUPÓN
-  placedBets: Bet[]  // APUESTAS CONFIRMADAS
-
+  bets: Bet[]
+  placedBets:Bet[]
   toggleBet: (bet: Bet) => void
   updateStake: (id: string, stake: number) => void
+  removeBet: (id: string) => void
   clearBets: () => void
   placeBets: () => void
 }
 
-export const useBetStore = create<BetStore>((set,get)=>({
+export const useBetStore = create<BetStore>((set)=>({
 
   bets: [],
   placedBets: [],
 
   toggleBet: (bet) =>
-    set((state) => {
+    set((state)=>{
 
-      const exists = state.bets.find(
-        (b) =>
-          b.matchId === bet.matchId &&
-          b.pick === bet.pick
-      )
+      const exists = state.bets.find(b=>b.id === bet.id)
 
-      if (exists) {
+      if(exists){
         return {
-          bets: state.bets.filter(
-            (b) =>
-              !(b.matchId === bet.matchId && b.pick === bet.pick)
-          )
+          bets: state.bets.filter(b=>b.id !== bet.id)
         }
       }
 
@@ -49,26 +35,38 @@ export const useBetStore = create<BetStore>((set,get)=>({
 
     }),
 
-  updateStake: (id, stake) =>
-    set((state) => ({
-      bets: state.bets.map((b) =>
-        b.id === id ? { ...b, stake } : b
+  updateStake: (id, stake)=>
+    set((state)=>({
+      bets: state.bets.map(bet =>
+        bet.id === id
+          ? { ...bet, stake }
+          : bet
       )
     })),
 
-  clearBets: () => set({ bets: [] }),
+  removeBet: (id)=>
+    set((state)=>({
+      bets: state.bets.filter(
+        bet => bet.id !== id
+      )
+    })),
 
-  placeBets: () => {
+  clearBets: () =>
+    set({ bets: [] }),
 
-    const { bets, placedBets } = get()
+placeBets: () =>
+  set((state) => {
 
-    const confirmed = bets.filter(b => b.stake > 0)
+    const newPlaced = state.bets.map((bet) => ({
+      ...bet,
+      status: "PENDING" as const
+    }))
 
-    set({
-      placedBets: [...placedBets, ...confirmed],
+    return {
+      placedBets: [...state.placedBets, ...newPlaced],
       bets: []
-    })
+    }
 
-  }
+  })
 
 }))

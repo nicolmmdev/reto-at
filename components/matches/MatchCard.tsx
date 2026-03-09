@@ -1,27 +1,33 @@
 "use client"
 
+import React, { useEffect, useState } from "react"
 import { useBetStore } from "@/stores/betStore"
-import { Match } from "@/types/match"
+import { Match, Pick } from "@/types/match"
 
 type Props = {
   match: Match
 }
 
-export default function MatchCard({ match }: Props) {
+function MatchCard({ match }: Props) {
 
-  const bets = useBetStore((state) => state.bets)
   const toggleBet = useBetStore((state) => state.toggleBet)
+  const bets = useBetStore((state) => state.bets)
 
-  const isSelected = (pick: "HOME" | "DRAW" | "AWAY") =>
+  const [closed,setClosed] = useState(false)
+
+  const isSelected = (pick: Pick) =>
     bets.some(
       (bet) => bet.matchId === match.id && bet.pick === pick
     )
 
-  function isMarketClosed() {
+useEffect(() => {
 
-    if (!match.startTime) return false
+  function checkMarket(){
+
+    if(!match.startTime) return
 
     const now = new Date()
+
     const matchDate = new Date(match.startTime)
 
     const todayMatchTime = new Date()
@@ -33,16 +39,27 @@ export default function MatchCard({ match }: Props) {
       0
     )
 
-    return now >= todayMatchTime
+    setClosed(now >= todayMatchTime)
+
   }
 
-  function handleBet(pick: "HOME" | "DRAW" | "AWAY") {
+  checkMarket()
 
-    const oddMap: any = {
+  const interval = setInterval(checkMarket, 1000)
+
+  return () => clearInterval(interval)
+
+}, [match.startTime])
+
+  function handleBet(pick: Pick){
+
+    if(closed) return
+
+    const oddMap = {
       HOME: match.market.odds.home,
       DRAW: match.market.odds.draw,
       AWAY: match.market.odds.away
-    }
+    } as const
 
     toggleBet({
       id: `${match.id}-${pick}`,
@@ -51,23 +68,34 @@ export default function MatchCard({ match }: Props) {
       pick,
       odd: oddMap[pick],
       stake: 0,
-      status: "PENDING"
+      status: "PENDING",
+      placedAt: "",
+      return: null
     })
   }
-
-  const closed = isMarketClosed()
-
+const matchHour = new Date(match.startTime).toLocaleTimeString("es-PE", {
+  hour: "2-digit",
+  minute: "2-digit"
+})
   return (
 
     <div className="matchCard">
 
-      <div className="matchHeader">
+<div className="matchHeader">
 
-        {!closed && <span className="liveBadge">EN VIVO</span>}
+  {!closed && (
+    <span className="liveBadge">
+      EN VIVO
+    </span>
+  )}
 
-        <span>{match.league.name}</span>
+  <span>{match.league.name}</span>
 
-      </div>
+  <span className="matchTime">
+    {matchHour}
+  </span>
+
+</div>
 
       <h3>
         {match.homeTeam.name} vs {match.awayTeam.name}
@@ -78,7 +106,7 @@ export default function MatchCard({ match }: Props) {
         <button
           disabled={closed}
           className={isSelected("HOME") ? "selected" : ""}
-          onClick={() => handleBet("HOME")}
+          onClick={()=>handleBet("HOME")}
         >
           <div>{match.homeTeam.name}</div>
           <strong>{match.market.odds.home}</strong>
@@ -87,7 +115,7 @@ export default function MatchCard({ match }: Props) {
         <button
           disabled={closed}
           className={isSelected("DRAW") ? "selected" : ""}
-          onClick={() => handleBet("DRAW")}
+          onClick={()=>handleBet("DRAW")}
         >
           <div>Empate</div>
           <strong>{match.market.odds.draw}</strong>
@@ -96,7 +124,7 @@ export default function MatchCard({ match }: Props) {
         <button
           disabled={closed}
           className={isSelected("AWAY") ? "selected" : ""}
-          onClick={() => handleBet("AWAY")}
+          onClick={()=>handleBet("AWAY")}
         >
           <div>{match.awayTeam.name}</div>
           <strong>{match.market.odds.away}</strong>
@@ -105,9 +133,14 @@ export default function MatchCard({ match }: Props) {
       </div>
 
       {closed && (
-        <p className="closedMarket">Partido cerrado</p>
+        <p className="closedMarket">
+          Mercado cerrado
+        </p>
       )}
 
     </div>
+
   )
 }
+
+export default React.memo(MatchCard)

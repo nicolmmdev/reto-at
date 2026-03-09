@@ -2,12 +2,15 @@
 
 import Link from "next/link"
 import { useBetStore } from "@/stores/betStore"
+import styles from "./MyBets.module.css"
 
 export default function MyBets(){
 
   const bets = useBetStore((state)=>state.bets)
   const updateStake = useBetStore((state)=>state.updateStake)
   const clearBets = useBetStore((state)=>state.clearBets)
+  const removeBet = useBetStore((state)=>state.removeBet)
+  const placeBets = useBetStore((state)=>state.placeBets)
 
   const totalStake = bets.reduce(
     (acc,bet)=>acc + bet.stake,
@@ -20,14 +23,16 @@ export default function MyBets(){
   )
 
   const isDisabled = totalStake <= 0
-const placeBets = useBetStore((state)=>state.placeBets)
+
   return(
 
-    <div className="myBets">
+    <div className={styles.myBets}>
 
-      <h2>CUPÓN ({bets.length})</h2>
+      <h2 className={styles.couponTitle}>
+        CUPÓN <span className={styles.badge}>{bets.length}</span>
+      </h2>
 
-      <div className="betsList">
+      <div className={styles.betsList}>
 
       {bets.map((bet)=>{
 
@@ -35,28 +40,55 @@ const placeBets = useBetStore((state)=>state.placeBets)
 
         return(
 
-          <div key={bet.id} className="betCard">
+          <div key={bet.id} className={styles.betCard}>
 
-            <Link href={`/bet/${bet.id}`}>
-              <p>{bet.match}</p>
-            </Link>
+            <div className={styles.betHeader}>
 
-            <p>
-              Pick: <strong>{bet.pick}</strong>
-            </p>
+              <Link href={`/bet/${bet.id}`}>
+                {bet.match}
+              </Link>
 
-            <p>Odd: {bet.odd}</p>
+              <button
+                className={styles.removeBet}
+                onClick={()=>removeBet(bet.id)}
+              >
+                ×
+              </button>
 
-            <input
-              type="number"
-              min="0"
-              value={bet.stake}
-              onChange={(e)=>
-                updateStake(bet.id, Number(e.target.value))
-              }
-            />
+            </div>
 
-            <p>Ganar: PEN {potentialWin}</p>
+            <div className={styles.betMarket}>
+
+              <span className={styles.liveBadge}>
+                EN VIVO
+              </span>
+
+              <span className={styles.pick}>
+                {bet.pick}
+              </span>
+
+              <span className={styles.odd}>
+                {bet.odd}
+              </span>
+
+            </div>
+
+            <div className={styles.betStakeRow}>
+
+              <input
+                type="number"
+                min="0"
+                value={bet.stake}
+                onChange={(e)=>
+                  updateStake(bet.id, Number(e.target.value))
+                }
+              />
+
+              <span className={styles.win}>
+                Ganar: PEN {potentialWin}
+              </span>
+
+            </div>
 
           </div>
 
@@ -66,36 +98,30 @@ const placeBets = useBetStore((state)=>state.placeBets)
 
       </div>
 
+      <div className={styles.betSummary}>
 
-      {/* RESUMEN */}
-
-      <div className="betSummary">
-
-        <div className="summaryRow">
+        <div className={styles.summaryRow}>
           <span>Apuesta Total</span>
           <strong>PEN {totalStake.toFixed(2)}</strong>
         </div>
 
-        <div className="summaryRow">
+        <div className={styles.summaryRow}>
           <span>Ganancia Total</span>
           <strong>PEN {totalWin.toFixed(2)}</strong>
         </div>
 
       </div>
 
-
-      {/* BOTONES */}
-
-<button
-  className="placeBet"
-  disabled={isDisabled}
-  onClick={placeBets}
->
-Realizar apuesta PEN {totalStake.toFixed(2)}
-</button>
+      <button
+        className={styles.placeBet}
+        disabled={isDisabled}
+        onClick={placeBets}
+      >
+        Realizar apuesta PEN {totalStake.toFixed(2)}
+      </button>
 
       <button
-        className="clearBtn"
+        className={styles.clearBtn}
         onClick={clearBets}
       >
         Limpiar todo
@@ -104,5 +130,4 @@ Realizar apuesta PEN {totalStake.toFixed(2)}
     </div>
 
   )
-
 }

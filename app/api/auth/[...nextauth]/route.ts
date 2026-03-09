@@ -1,7 +1,8 @@
-import NextAuth from "next-auth"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import { JWT } from "next-auth/jwt"
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -17,8 +18,8 @@ export const authOptions = {
           credentials?.password === "1234"
         ) {
           return {
-            id: "1",
-            name: "Admin",
+            id: "1003120052",
+            name: "Nicol Lesly Mendoza Mattos",
             email: "admin@test.com"
           }
         }
@@ -27,6 +28,35 @@ export const authOptions = {
       }
     })
   ],
+
+  callbacks: {
+
+    async jwt({ token, user }) {
+
+      if (user) {
+        token.id = user.id
+        token.name = user.name
+        token.email = user.email
+      }
+
+      return token
+    },
+
+    async session({ session, token }) {
+
+      if (session.user) {
+        session.user.id = token.id as string
+        session.user.name = token.name as string
+        session.user.email = token.email as string
+      }
+
+      return session
+    }
+  },
+
+  session: {
+    strategy: "jwt"
+  },
 
   secret: process.env.NEXTAUTH_SECRET
 }

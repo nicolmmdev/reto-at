@@ -18,9 +18,9 @@ export default function ProfileData(){
       <div className="profileTabs">
 
         <button className="active">Datos</button>
-        <button>Cambio de contraseña</button>
+        {/* <button>Cambio de contraseña</button>
         <button>Notificaciones</button>
-        <button>Autoexclusión y límites</button>
+        <button>Autoexclusión y límites</button> */}
 
       </div>
 

@@ -3,6 +3,7 @@ import Providers from "@/components/providers"
 import Header from "@/components/layout/Header"
 import "./globals.css"
 import { Rubik } from "next/font/google"
+import NavbarWrapper from "@/components/layout/NavbarWrapper"
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -20,27 +21,23 @@ export const metadata = {
 }
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: ReactNode
 }) {
-
   return (
     <html lang="es">
-
       <body className={rubik.className}>
 
         <Providers>
 
-          <Header />
+          <NavbarWrapper />
 
           {children}
 
         </Providers>
 
       </body>
-
     </html>
   )
-
 }
