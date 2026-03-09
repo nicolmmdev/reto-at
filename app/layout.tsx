@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header"
 import "./globals.css"
 import { Rubik } from "next/font/google"
 import NavbarWrapper from "@/components/layout/NavbarWrapper"
-
+import { Toaster } from "react-hot-toast"
 const rubik = Rubik({
   subsets: ["latin"],
 })
@@ -34,7 +34,12 @@ export default function RootLayout({
           <NavbarWrapper />
 
           {children}
-
+  <Toaster
+    position="top-right"
+    toastOptions={{
+      duration:3000
+    }}
+  />
         </Providers>
 
       </body>

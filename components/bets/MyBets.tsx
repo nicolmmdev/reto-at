@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { useBetStore } from "@/stores/betStore"
 import styles from "./MyBets.module.css"
-
+import toast from "react-hot-toast"
 export default function MyBets(){
 
   const router = useRouter()
@@ -29,16 +29,24 @@ export default function MyBets(){
 
   const isDisabled = totalStake <= 0
 
-  function handlePlaceBet(){
+function handlePlaceBet(){
 
-    if(status !== "authenticated"){
-      router.push("/login")
-      return
-    }
-
-    placeBets()
+  if(status !== "authenticated"){
+    router.push("/login")
+    return
   }
 
+  placeBets()
+
+  toast.success("Apuesta realizada con éxito")
+}
+function handleRemoveBet(id:string){
+
+  removeBet(id)
+
+toast.success("Apuesta eliminada",{
+  icon:"🗑️"
+})}
   return(
 
     <div className={styles.myBets}>
@@ -65,7 +73,7 @@ export default function MyBets(){
 
               <button
                 className={styles.removeBet}
-                onClick={()=>removeBet(bet.id)}
+                onClick={()=>handleRemoveBet(bet.id)}
               >
                 ×
               </button>

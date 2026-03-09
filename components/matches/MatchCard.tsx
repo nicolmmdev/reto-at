@@ -62,7 +62,7 @@ useEffect(() => {
     } as const
 
     toggleBet({
-      id: `${match.id}-${pick}`,
+      id: crypto.randomUUID(),
       matchId: match.id,
       match: `${match.homeTeam.name} vs ${match.awayTeam.name}`,
       pick,
