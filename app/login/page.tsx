@@ -5,33 +5,33 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import styles from "./LoginPage.module.css"
 
-export default function LoginPage(){
+export default function LoginPage() {
 
   const router = useRouter()
 
-  const [email,setEmail] = useState("")
-  const [password,setPassword] = useState("")
-  const [error,setError] = useState("")
-  const [loading,setLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const isDisabled = !email || !password || loading
 
-  async function handleLogin(e:React.FormEvent<HTMLFormElement>){
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
 
     e.preventDefault()
 
     setLoading(true)
     setError("")
 
-    const res = await signIn("credentials",{
+    const res = await signIn("credentials", {
       email,
       password,
-      redirect:false
+      redirect: false
     })
 
     setLoading(false)
 
-    if(res?.error){
+    if (res?.error) {
       setError("Credenciales incorrectas")
       return
     }
@@ -39,7 +39,7 @@ export default function LoginPage(){
     router.push("/")
   }
 
-  return(
+  return (
 
     <main className={styles.loginPage}>
 
@@ -51,9 +51,9 @@ export default function LoginPage(){
             BIENVENIDO A
           </p>
 
-<h1 className="logo">
-  BetDay <span>Lite</span>
-</h1>
+          <h1 className="logo">
+            BetDay <span>Lite</span>
+          </h1>
 
         </header>
 
@@ -75,7 +75,7 @@ export default function LoginPage(){
               autoComplete="email"
               placeholder="Usuario o Email"
               value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
 
@@ -93,7 +93,7 @@ export default function LoginPage(){
               autoComplete="current-password"
               placeholder="Contraseña"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
 

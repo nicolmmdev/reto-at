@@ -62,7 +62,7 @@ export default function Header(){
               className="logoutBtn"
               onClick={()=>signOut({ callbackUrl: "/" })}
             >
-              Logout
+              Salir
             </button>
 
           </div>

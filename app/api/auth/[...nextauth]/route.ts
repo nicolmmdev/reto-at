@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { JWT } from "next-auth/jwt"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,11 +16,22 @@ export const authOptions: NextAuthOptions = {
           credentials?.email === "admin@test.com" &&
           credentials?.password === "1234"
         ) {
+
           return {
             id: "1003120052",
-            name: "Nicol Lesly Mendoza Mattos",
-            email: "admin@test.com"
+            name: "Nicol Lesly",
+            lastName: "Mendoza Mattos",
+            email: "admin@test.com",
+            documentType: "DNI",
+            documentNumber: "76958900",
+            birthDate: "1996-11-04",
+            gender: "Femenino",
+            phone: "957169140",
+            country: "Perú",
+            city: "San Juan de Lurigancho",
+            address: "Avenida Piedra Luna"
           }
+
         }
 
         return null
@@ -34,9 +44,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
 
       if (user) {
-        token.id = user.id
-        token.name = user.name
-        token.email = user.email
+        Object.assign(token, user)
       }
 
       return token
@@ -45,13 +53,12 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
 
       if (session.user) {
-        session.user.id = token.id as string
-        session.user.name = token.name as string
-        session.user.email = token.email as string
+        Object.assign(session.user, token)
       }
 
       return session
     }
+
   },
 
   session: {
