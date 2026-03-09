@@ -15,7 +15,23 @@ Deployment realizado en **Vercel**
 https://reto-at.vercel.app/
 
 ---
+# Credenciales de acceso (demo)
 
+Para probar la autenticación puedes utilizar las siguientes credenciales:
+
+Email:
+
+```
+admin@test.com
+```
+
+Password:
+
+```
+1234
+```
+
+---
 # Tecnologías utilizadas
 
 ## Frontend
