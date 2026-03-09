@@ -77,7 +77,38 @@
 
 .betStakeRow input{
   width:70px;
-  padding:4px;
+  height:34px;
+  padding:6px 8px;
+
+  border:1px solid #d1d5db;
+  border-radius:6px;
+
+  background:white;
+  font-size:14px;
+  font-weight:600;
+
+  outline:none;
+  box-shadow:none;
+
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:textfield;
+
+  transition:border .15s ease, box-shadow .15s ease;
+}
+
+/* eliminar flechas de number input */
+.betStakeRow input::-webkit-outer-spin-button,
+.betStakeRow input::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+
+/* focus elegante */
+.betStakeRow input:focus{
+  border:1px solid #e30613;
+  outline:none;
+  box-shadow:0 0 0 2px rgba(227,6,19,0.15);
 }
 
 .win{
@@ -104,6 +135,7 @@
   border:none;
   border-radius:6px;
   margin-top:10px;
+  cursor: pointer;
 }
 
 .placeBet:disabled{
@@ -115,5 +147,6 @@
   padding:8px;
   margin-top:8px;
   border:1px solid #ddd;
+  cursor: pointer;
   background:white;
 }
