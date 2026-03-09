@@ -3,48 +3,97 @@
   display:flex;
   justify-content:center;
   align-items:center;
+  background:#f3f4f6;
 }
 
 .loginCard{
-  background:white;
-  padding:40px;
-  border-radius:10px;
+  background:#fff;
+  padding:45px 50px;
+  border-radius:14px;
   width:100%;
   max-width:420px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
 }
 
 .loginHeader{
   text-align:center;
-  margin-bottom:15px;
+  margin-bottom:10px;
+}
+
+.welcomeText{
+  font-size:12px;
+  letter-spacing:2px;
+  color:#555;
+  margin-bottom:6px;
+}
+
+.logo{
+  font-size:30px;
+  font-weight:700;
+}
+
+.logo span{
+  color:#111;
+}
+
+.logo{
+  color:#e11d2e;
 }
 
 .loginTitle{
   text-align:center;
-  margin-bottom:20px;
+  margin:20px 0 30px 0;
+  font-weight:600;
 }
 
 .inputGroup{
   display:flex;
   flex-direction:column;
-  gap:5px;
-  margin-bottom:12px;
+  gap:6px;
+  margin-bottom:20px;
 }
 
-.forgotPassword{
-  text-align:right;
-  font-size:13px;
-  margin-bottom:10px;
-}
-
-.signupText{
-  text-align:center;
-  margin-top:15px;
+.inputGroup label{
   font-size:14px;
+  font-weight:500;
 }
 
-.welcomeText{
-  text-align:center;
-  font-size:13px;
-  letter-spacing:1px;
+.inputGroup input{
+  border:none;
+  border-bottom:2px solid #ccc;
+  padding:10px 4px;
+  font-size:14px;
+  outline:none;
+  transition:all .2s ease;
+  background:transparent;
+}
+
+.inputGroup input:focus{
+  border-bottom:2px solid #000;
+}
+
+.inputGroup input::placeholder{
+  color:#aaa;
+}
+.loginSubmit{
+  width:100%;
+  height:44px;
+  border:none;
+  background:#000;
+  color:white;
+  font-weight:600;
+  border-radius:6px;
+  cursor:pointer;
+  transition:all .2s ease;
+  margin-top:10px;
+}
+
+.loginSubmit:hover{
+  background:#111;
+}
+
+.loginSubmit:disabled{
+  background:#dcdcdc;
+  color:#888;
+  cursor:not-allowed;
 }

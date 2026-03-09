@@ -51,9 +51,9 @@ export default function LoginPage(){
             BIENVENIDO A
           </p>
 
-          <h1 className={styles.logo}>
-            apuesta<span>total</span>
-          </h1>
+<h1 className="logo">
+  BetDay <span>Lite</span>
+</h1>
 
         </header>
 
@@ -99,9 +99,9 @@ export default function LoginPage(){
 
           </div>
 
-          <div className={styles.forgotPassword}>
+          {/* <div className={styles.forgotPassword}>
             <a href="#">¿Olvidaste tu contraseña?</a>
-          </div>
+          </div> */}
 
           {error && (
             <p className={styles.loginError} role="alert">
@@ -117,9 +117,9 @@ export default function LoginPage(){
             {loading ? "Ingresando..." : "CONTINUAR"}
           </button>
 
-          <p className={styles.signupText}>
+          {/* <p className={styles.signupText}>
             ¿No tienes una cuenta? <a href="#">Regístrate</a>
-          </p>
+          </p> */}
 
         </form>
 
