@@ -1,10 +1,15 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { useBetStore } from "@/stores/betStore"
 import styles from "./MyBets.module.css"
 
 export default function MyBets(){
+
+  const router = useRouter()
+  const { status } = useSession()
 
   const bets = useBetStore((state)=>state.bets)
   const updateStake = useBetStore((state)=>state.updateStake)
@@ -23,6 +28,16 @@ export default function MyBets(){
   )
 
   const isDisabled = totalStake <= 0
+
+  function handlePlaceBet(){
+
+    if(status !== "authenticated"){
+      router.push("/login")
+      return
+    }
+
+    placeBets()
+  }
 
   return(
 
@@ -115,7 +130,7 @@ export default function MyBets(){
       <button
         className={styles.placeBet}
         disabled={isDisabled}
-        onClick={placeBets}
+        onClick={handlePlaceBet}
       >
         Realizar apuesta PEN {totalStake.toFixed(2)}
       </button>
